@@ -1,0 +1,38 @@
+import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import {MatDialog, MatDialogModule} from '@angular/material/dialog';
+import { StockfishService } from '../computer-mode/stockfish';
+import { Color } from '../../../../../the-knight-shift/src/app/chess-logic/models';
+import { Router, RouterModule } from '@angular/router';
+
+@Component({
+  selector: 'app-play-against-computer-dialog',
+  imports: [MatDialogModule, MatButtonModule, CommonModule, RouterModule],
+  templateUrl: './play-against-computer-dialog.html',
+  styleUrl: './play-against-computer-dialog.css',
+  standalone: true
+})
+export class PlayAgainstComputerDialog {
+  public stockfishLevels: readonly number[] = [1, 2, 3, 4, 5];
+  public stockfishLevel: number = 1;
+
+  constructor(private stockfishService: StockfishService, private dialog: MatDialog, private router: Router){}
+
+  public selectStockfishLevel(level: number): void {
+    this.stockfishLevel = level;
+  }
+
+  public play(color: "w" | "b"): void {
+    this.dialog.closeAll();
+    this.stockfishService.computerConfiguration$.next({
+      color: color === "w"? Color.Black : Color.White,
+      level: this.stockfishLevels[this.stockfishLevel]
+    });
+    this.router.navigate(["against-computer"]);
+  }
+
+  public closeDialog(): void {
+    this.router.navigate(["against-friend"]);
+  }
+}
