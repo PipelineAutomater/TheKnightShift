@@ -24,7 +24,7 @@ export class Pawn extends Piece {
     public set hasMoved(_) {
         this._hasMoved = true;
         this._directions = [
-            {x: 0, y:1},
+            {x: 1, y:0},
             {x: 1, y:1},
             {x: 1, y:-1}
         ];

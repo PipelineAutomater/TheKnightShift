@@ -6,6 +6,7 @@ import { ChessBoardService } from './chess-board.service';
 import { CommonModule } from '@angular/common';
 import { MoveListComponent } from '../move-list/move-list';
 import { filter, fromEvent, Subscription, tap } from 'rxjs';
+import { FENConverter } from '../../chess-logic/FENConverter';
 
 @Component({
   selector: 'app-chess-board',
@@ -31,6 +32,7 @@ export class ChessBoardComponent implements OnInit, OnDestroy{
   public get moveList(): MoveList {return this.chessBoard.moveList};
   public get gameHistory(): GameHistroy {return this.chessBoard.gameHistory;};
   public gameHistoryPointer: number = 0;
+  public isRetryButtonActive;
 
   public promotionPieces(): FENChar[] {
     return this.playerColor === Color.White ? [FENChar.WhiteKnight, FENChar.WhiteBishop, FENChar.WhiteRook, FENChar.WhiteQueen]:[FENChar.BlackKnight, FENChar.BlackBishop, FENChar.BlackRook, FENChar.BlackQueen] 
@@ -40,7 +42,9 @@ export class ChessBoardComponent implements OnInit, OnDestroy{
 
   private subscriptions$ = new Subscription();
 
-  constructor(protected chessBoardService: ChessBoardService){}
+  constructor(protected chessBoardService: ChessBoardService){
+    this.isRetryButtonActive = false;
+  }
 
   public ngOnInit(): void {
     const keyEventSubscription$: Subscription = fromEvent<KeyboardEvent>(document, "keyup").pipe(filter(event => event.key === "ArrowRight" || event.key === "ArrowLeft"), tap(event => {
@@ -63,6 +67,7 @@ export class ChessBoardComponent implements OnInit, OnDestroy{
 
   public ngOnDestroy(): void {
     this.subscriptions$.unsubscribe();
+    this.chessBoardService.chessBoardState$.next(FENConverter.initalPosition);
   }
 
   public flipBoard(): void {
@@ -191,4 +196,6 @@ export class ChessBoardComponent implements OnInit, OnDestroy{
     else if (moveType.has(MoveType.Check)) moveSound.src = "assets/sound/check.mp3";
     moveSound.play();
   }
+
+  public retry():void{}
 }

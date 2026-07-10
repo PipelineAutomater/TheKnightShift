@@ -7,4 +7,7 @@ import { FENConverter } from '../../../../../the-knight-shift/src/app/chess-logi
 })
 export class ChessBoardService {
   public chessBoardState$ = new BehaviorSubject<string>(FENConverter.initalPosition);
+  public reset(): void {
+    this.chessBoardState$ = new BehaviorSubject<string>(FENConverter.initalPosition)
+  }
 }

@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of, switchMap } from 'rxjs';
-import { ChessMove, ComputerConfiguration, StockfishQueryParams, StockfishResponse } from './models';
+import { ChessMove, ComputerConfiguration, stockfishLevels, StockfishQueryParams, StockfishResponse } from './models';
 import { Color, FENChar } from '../../../../../the-knight-shift/src/app/chess-logic/models';
 
 @Injectable({
@@ -32,11 +32,11 @@ export class StockfishService {
     constructor(private http: HttpClient){}
     public getBestMove(fen: string): Observable<ChessMove> {
         const queryParam: StockfishQueryParams = {
-            fen, depth: this.computerConfiguration$.value.level
+            fen, depth: stockfishLevels[this.computerConfiguration$.value.level]
         };
         let params = new HttpParams().appendAll(queryParam);
         return this.http.get<StockfishResponse>(this.api, {params}).pipe(switchMap(response => {
-            const bestMove:string = response.bestMove.split(" ")[1]; 
+            const bestMove:string = response.bestmove.split(" ")[1]; 
             return of(this.moveFromStockfishString(bestMove));
         }));
     }

@@ -27,7 +27,7 @@ export class PlayAgainstComputerDialog {
     this.dialog.closeAll();
     this.stockfishService.computerConfiguration$.next({
       color: color === "w"? Color.Black : Color.White,
-      level: this.stockfishLevels[this.stockfishLevel]
+      level: this.stockfishLevel
     });
     this.router.navigate(["against-computer"]);
   }

@@ -17,7 +17,7 @@ export type StockfishResponse = {
     success: boolean;
     evaluation: number | null;
     mate: number | null;
-    bestMove: string;
+    bestmove: string;
     continuation: string;
 }
 
@@ -27,9 +27,9 @@ export type ComputerConfiguration = {
 }
 
 export const stockfishLevels: Readonly<Record<number, number>> = {
-    1:1,
-    2:4,
-    3:7,
-    4:10,
-    5:13
+    1:10,
+    2:11,
+    3:12,
+    4:13,
+    5:15
 }
