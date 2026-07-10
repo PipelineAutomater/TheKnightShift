@@ -1,27 +1,31 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { MCTSArgs } from './models';
 
 @Component({
   selector: 'app-alpha-zero',
   imports: [],
   templateUrl: './alpha-zero.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './alpha-zero.css',
 })
-export class AlphaZero {
-  
-}
+export class AlphaZero {}
 
 class Node {
   private visit_count;
   private value_sum;
-  constructor(private args: MCTSArgs, private state: string, private parent: Node | null = null, action_taken: string | undefined = undefined) {
+  constructor(
+    private args: MCTSArgs,
+    private state: string,
+    private parent: Node | null = null,
+    action_taken: string | undefined = undefined,
+  ) {
     this.visit_count = 0;
     this.value_sum = 0;
   }
 }
 
 class MCTS {
-  private args: MCTSArgs = {num_searches: 5};
+  private args: MCTSArgs = { num_searches: 5 };
   constructor() {}
   public search(state: string) {
     //Define Root

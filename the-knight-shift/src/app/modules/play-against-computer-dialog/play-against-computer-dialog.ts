@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import {MatDialog, MatDialogModule} from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { StockfishService } from '../computer-mode/stockfish';
 import { Color } from '../../../../../the-knight-shift/src/app/chess-logic/models';
 import { Router, RouterModule } from '@angular/router';
@@ -11,28 +11,33 @@ import { Router, RouterModule } from '@angular/router';
   imports: [MatDialogModule, MatButtonModule, CommonModule, RouterModule],
   templateUrl: './play-against-computer-dialog.html',
   styleUrl: './play-against-computer-dialog.css',
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: true,
 })
 export class PlayAgainstComputerDialog {
   public stockfishLevels: readonly number[] = [1, 2, 3, 4, 5];
   public stockfishLevel: number = 1;
 
-  constructor(private stockfishService: StockfishService, private dialog: MatDialog, private router: Router){}
+  constructor(
+    private stockfishService: StockfishService,
+    private dialog: MatDialog,
+    private router: Router,
+  ) {}
 
   public selectStockfishLevel(level: number): void {
     this.stockfishLevel = level;
   }
 
-  public play(color: "w" | "b"): void {
+  public play(color: 'w' | 'b'): void {
     this.dialog.closeAll();
     this.stockfishService.computerConfiguration$.next({
-      color: color === "w"? Color.Black : Color.White,
-      level: this.stockfishLevel
+      color: color === 'w' ? Color.Black : Color.White,
+      level: this.stockfishLevel,
     });
-    this.router.navigate(["against-computer"]);
+    this.router.navigate(['against-computer']);
   }
 
   public closeDialog(): void {
-    this.router.navigate(["against-friend"]);
+    this.router.navigate(['against-friend']);
   }
 }
