@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "npx ng build",
+    "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:the-knight-shift": "node dist/the-knight-shift/server/server.mjs"
@@ -22,6 +22,7 @@
     "@angular/platform-server": "^21.x.x",
     "@angular/router": "^21.x.x",
     "@angular/ssr": "^21.x.19",
+    "angular-cli-ghpages": "^3.1.0",
     "rxjs": "~7.8.2",
     "tslib": "^2.8.1"
   },
