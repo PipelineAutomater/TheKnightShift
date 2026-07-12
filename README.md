@@ -1,0 +1,1 @@
+Goal: Give automated, human-like chess feedback
